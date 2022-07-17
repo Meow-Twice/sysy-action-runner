@@ -86,6 +86,7 @@ action runner 镜像基于评测脚本构建，部署 runner 的主机需事先�
 mkdir -p /home/ubuntu/compiler/src/ /home/ubuntu/compiler/build/ /home/ubuntu/compiler/logs/
 
 docker run -d --name=sysy-action-runner --restart=unless-stopped \
+    -v /var/run/docker.sock:/var/run/docker.sock \
     -v /home/ubuntu/compiler/testcase/:/home/git/testcase/:ro \
     -v /home/ubuntu/compiler/config.json:/app/config.json:ro \
     -v /home/ubuntu/compiler/src/:/home/git/compiler/src/ \
