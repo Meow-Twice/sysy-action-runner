@@ -1,0 +1,4 @@
+actions-runner**
+*.sh
+!docker-build.sh
+*.json
