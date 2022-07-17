@@ -19,8 +19,4 @@ if [ -z $NAME ]; then
     NAME=$(hostname)
 fi
 
-echo $URL
-echo $TOKEN
-echo $NAME
-
-docker build --build-arg url=$URL --build-arg token=$TOKEN --build-arg name=$NAME -t "sysy-action-runner:latest" .
+docker build --build-arg url=$URL --build-arg token=$TOKEN --build-arg name=$NAME --build-arg uid=$UID -t "sysy-action-runner:latest" .

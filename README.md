@@ -82,12 +82,15 @@ action runner 镜像基于评测脚本构建，部署 runner 的主机需事先�
 启动 runner:
 
 ```shell
+# ensure the owner of these directories is not root
+mkdir -p /home/ubuntu/compiler/src/ /home/ubuntu/compiler/build/ /home/ubuntu/compiler/logs/
+
 docker run -d --name=sysy-action-runner --restart=unless-stopped \
+    -v /home/ubuntu/compiler/testcase/:/home/git/testcase/:ro \
+    -v /home/ubuntu/compiler/config.json:/app/config.json:ro \
     -v /home/ubuntu/compiler/src/:/home/git/compiler/src/ \
     -v /home/ubuntu/compiler/build/:/home/git/compiler/build/ \
-    -v /home/ubuntu/compiler/testcase/:/home/git/testcase/ \
     -v /home/ubuntu/compiler/logs/:/home/git/logs/ \
-    -v /home/ubuntu/compiler/config.json:/app/config.json \
     sysy-action-runner:latest
 ```
 
