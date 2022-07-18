@@ -20,4 +20,4 @@ USER git
 
 RUN ./config.sh --unattended --url ${url} --token ${token} --name ${name} --labels sysy-runner --work /home/git/runner
 
-ENTRYPOINT [ "/bin/bash", "./run.sh" ]
+ENTRYPOINT [ "bin/Runner.Listener", "run" ]

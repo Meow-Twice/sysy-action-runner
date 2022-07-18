@@ -52,13 +52,15 @@ action runner 镜像基于评测脚本构建，部署 runner 的主机需事先�
 - 测试用例
 - 评测结果
 
-以下给出一组示例 (格式 `主机路径:容器路径`，与 `-v` 选项传入的参数相同)：
+以下给出一组示例 (格式 `主机路径:容器路径[:选项]`，与 `-v` 选项传入的参数格式相同)：
 
+- 配置文件(只读挂载) `/home/ubuntu/compiler/config.json:/app/config.json:ro`
+- 测试用例集(只读挂载) `/home/ubuntu/compiler/testcase/:/home/git/testcase/:ro`
 - 编译器源代码 `/home/ubuntu/compiler/src/:/home/git/compiler/src/`
 - 编译器构建成品 `/home/ubuntu/compiler/build/:/home/git/compiler/build/`
-- 测试用例集 `/home/ubuntu/compiler/testcase/:/home/git/testcase/`
 - 评测结果 `/home/ubuntu/compiler/logs/:/home/git/logs/`
-- 配置文件 `/home/ubuntu/compiler/config.json:/app/config.json`
+
+除此以外，由于评测脚本用到 docker in docker，因此还需将主机的 `/var/run/docker.sock` 挂载至容器内相同路径。
 
 评测脚本配置文件示例 (实际使用时需去掉注释)：
 
@@ -84,8 +86,8 @@ action runner 镜像基于评测脚本构建，部署 runner 的主机需事先�
 ```shell
 # ensure the owner of these directories is not root
 mkdir -p /home/ubuntu/compiler/src/ /home/ubuntu/compiler/build/ /home/ubuntu/compiler/logs/
-
-docker run -d --name=sysy-action-runner --restart=unless-stopped \
+# use --stop-signal=SIGINT to gracefully stop the action runner process
+docker run -d --name=sysy-action-runner --restart=unless-stopped --stop-signal=SIGINT \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /home/ubuntu/compiler/testcase/:/home/git/testcase/:ro \
     -v /home/ubuntu/compiler/config.json:/app/config.json:ro \
