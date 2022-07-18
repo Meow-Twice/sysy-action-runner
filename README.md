@@ -57,6 +57,8 @@ action runner 镜像基于评测脚本构建，部署 runner 的主机需事先�
 - 配置文件(只读挂载)
   - 如只有一个配置文件，可挂载单个文件 `/home/ubuntu/compiler/config.json:/app/config.json:ro`
   - 如有多个配置文件，也可挂载配置目录 `/home/ubuntu/compiler/configs/:/home/git/configs/:ro`
+    - 配置文件可根据分支来组织，每个分支对应一个评测配置文件，名称格式 `config-[分支名称].json`，例如 `config-master.json`, `config-frontend.json` 等
+    - 在 Action Workflow 文件中用 github context 变量 `${{ github.ref_name }}` 获取当前分支名
 - 测试用例集(只读挂载) `/home/ubuntu/compiler/testcase/:/home/git/testcase/:ro`
 - 编译器源代码 `/home/ubuntu/compiler/src/:/home/git/compiler/src/`
 - 编译器构建成品 `/home/ubuntu/compiler/build/:/home/git/compiler/build/`
