@@ -79,7 +79,7 @@ action runner 镜像基于评测脚本构建，部署 runner 的主机需事先�
     "rebuild-compiler": true,                                 
     "jvm-options": "",
     "run-type": "rpi-elf",                                             
-    "rpi-address": "http://192.168.1.2:9000",
+    "rpi-addresses": ["http://192.168.1.2:9000"],
     "log-dir": "/home/git/logs",                        // 测试结果的容器路径
     "log-dir-host": "/home/ubuntu/compiler/logs",       // 测试结果的主机路径
 }
